@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -48,6 +49,8 @@ public class TransactionControllerTest {
 		transaction= new Transaction();
 		transaction.setIdAccount("ACCOUNT1");
 		
+		transactionList = new ArrayList<>();
+		transactionList.add(transaction);
 	}
 	
 	/**
@@ -78,23 +81,15 @@ public class TransactionControllerTest {
 		.andExpect(jsonPath("$.idAccount", is("ACCOUNT1")));
 	}
 	
-	
+	/**
+	 * This method will test the getAllCoherenceAlertes controller  
+	 */
 	@Test
 	public void getAllCoherenceAlertes() throws Exception {
 		
-//		when(transactionRepository.getTransactionsByIdAccount(anyString())).thenReturn(transactionList);
-//		mvc.perform(requestBuilder)(get("/transaction/find/list/transaction/1")).andExpect(status().isOk())
-//		.andExpect(jsonPath("$[0].detail", is("MESSAGE1")));
-
-		
-//		.andExpect(status().isOk())
-//		.andExpect(jsonPath("$.[0].alerteDetail", is("MESSAGE1")))
-//		.andExpect(jsonPath("$.[1].alerteDetail", is("MESSAGE2")));
-		
-		
 		when(transactionRepository.getTransactionsByIdAccount(anyString())).thenReturn(transactionList);
-		mvc.perform(get("/transaction/find/list/transaction/1",1)).andExpect(status().isOk())
-		.andExpect(jsonPath("$[0].idAccount", is("1")));
+		mvc.perform(get("/transaction/find/list/transaction/ACCOUNT1",1)).andExpect(status().isOk())
+		.andExpect(jsonPath("$[0].idAccount", is("ACCOUNT1")));
 		
 	}
 }
